@@ -1,478 +1,492 @@
-<div id="oe-digital-countdown-widget">
-  <style>
-    #oe-digital-countdown-widget {
-      --navy: #050f22;
-      --navy-2: #081c38;
-      --cyan: #25dfff;
-      --cyan-soft: rgba(37, 223, 255, .35);
-      --amber: #ffb342;
-      --amber-soft: rgba(255, 179, 66, .32);
-      --white: #f7fbff;
-      --muted: #b9c9dc;
-      --panel: rgba(5, 18, 38, .92);
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--white);
-      width: 100%;
-      max-width: none;
-      margin: 0;
-      padding: clamp(22px, 4vw, 52px);
-      border-radius: 0;
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 18% 24%, rgba(37, 223, 255, .16), transparent 28%),
-        radial-gradient(circle at 84% 72%, rgba(255, 179, 66, .18), transparent 32%),
-        linear-gradient(135deg, #020814 0%, var(--navy) 45%, #030a16 100%);
-      box-shadow: 0 24px 70px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.06);
-    }
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Enrollment Countdown</title>
+<style>
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    background: #050f22 !important;
+  }
 
-    #oe-digital-countdown-widget * { box-sizing: border-box; }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
 
-    #oe-digital-countdown-widget::before,
-    #oe-digital-countdown-widget::after {
-      content: "";
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      filter: blur(16px);
-      opacity: .55;
-      pointer-events: none;
-    }
+  #oe-scale-shell {
+    width: 1200px;
+    transform-origin: top center;
+  }
 
-    #oe-digital-countdown-widget::before {
-      left: -120px;
-      top: -90px;
-      background: radial-gradient(circle, rgba(37,223,255,.28), transparent 62%);
-    }
+  #oe-digital-countdown-widget {
+    --navy: #050f22;
+    --navy-2: #081c38;
+    --cyan: #25dfff;
+    --amber: #ffb342;
+    --white: #f7fbff;
+    --muted: #b9c9dc;
+    --panel: rgba(5, 18, 38, .92);
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--white);
+    width: 1200px;
+    max-width: 1200px;
+    margin: 0;
+    padding: 52px;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 18% 24%, rgba(37, 223, 255, .16), transparent 28%),
+      radial-gradient(circle at 84% 72%, rgba(255, 179, 66, .18), transparent 32%),
+      linear-gradient(135deg, #020814 0%, var(--navy) 45%, #030a16 100%);
+    box-shadow: 0 24px 70px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.06);
+  }
 
-    #oe-digital-countdown-widget::after {
-      right: -130px;
-      bottom: -110px;
-      background: radial-gradient(circle, rgba(255,179,66,.25), transparent 62%);
-    }
+  #oe-digital-countdown-widget * { box-sizing: border-box; }
 
-    .oe-header {
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      margin-bottom: clamp(22px, 3vw, 34px);
-    }
+  #oe-digital-countdown-widget::before,
+  #oe-digital-countdown-widget::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    filter: blur(16px);
+    opacity: .55;
+    pointer-events: none;
+  }
 
-    .oe-title {
-      margin: 0;
-      text-transform: uppercase;
-      font-size: clamp(42px, 7vw, 92px);
-      line-height: .92;
-      letter-spacing: .03em;
-      font-weight: 800;
-    }
+  #oe-digital-countdown-widget::before {
+    left: -120px;
+    top: -90px;
+    background: radial-gradient(circle, rgba(37,223,255,.28), transparent 62%);
+  }
 
-    .oe-title .cyan {
-      color: transparent;
-      -webkit-text-stroke: 2px var(--cyan);
-      text-shadow: 0 0 16px rgba(37,223,255,.75), 0 0 36px rgba(37,223,255,.35);
-    }
+  #oe-digital-countdown-widget::after {
+    right: -130px;
+    bottom: -110px;
+    background: radial-gradient(circle, rgba(255,179,66,.25), transparent 62%);
+  }
 
-    .oe-title .amber {
-      color: transparent;
-      -webkit-text-stroke: 2px var(--amber);
-      text-shadow: 0 0 16px rgba(255,179,66,.72), 0 0 36px rgba(255,179,66,.35);
-    }
+  .oe-header {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 34px;
+  }
 
-    .oe-subtitle {
-      margin: 16px auto 0;
-      color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: .26em;
-      font-size: clamp(17px, 2.4vw, 31px);
-      font-weight: 700;
-      text-shadow: 0 0 16px rgba(37,223,255,.6);
-    }
+  .oe-title {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 88px;
+    line-height: .92;
+    letter-spacing: .03em;
+    font-weight: 800;
+  }
 
-    .oe-divider {
-      width: min(760px, 85%);
-      height: 2px;
-      margin: 18px auto 0;
-      background: linear-gradient(90deg, transparent, var(--cyan), var(--amber), transparent);
-      box-shadow: 0 0 12px rgba(37,223,255,.5), 0 0 12px rgba(255,179,66,.45);
-    }
+  .oe-title .cyan {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--cyan);
+    text-shadow: 0 0 16px rgba(37,223,255,.75), 0 0 36px rgba(37,223,255,.35);
+  }
 
-    .oe-begins-label {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      margin: 0 auto 16px;
-      color: var(--amber);
-      text-transform: uppercase;
-      letter-spacing: .16em;
-      font-size: clamp(17px, 2.4vw, 30px);
-      font-weight: 800;
-      text-shadow: 0 0 14px rgba(255,179,66,.62);
-    }
+  .oe-title .amber {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--amber);
+    text-shadow: 0 0 16px rgba(255,179,66,.72), 0 0 36px rgba(255,179,66,.35);
+  }
 
-    .oe-countdown-panel {
-      position: relative;
-      z-index: 1;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: clamp(16px, 2.2vw, 28px);
-      border: 2px solid transparent;
-      border-radius: 28px;
-      background:
-        linear-gradient(var(--panel), var(--panel)) padding-box,
-        linear-gradient(90deg, var(--cyan), var(--amber)) border-box;
-      box-shadow:
-        0 0 30px rgba(37,223,255,.18),
-        0 0 32px rgba(255,179,66,.15),
-        inset 0 0 0 1px rgba(255,255,255,.05);
-    }
+  .oe-subtitle {
+    margin: 16px auto 0;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: .26em;
+    font-size: 29px;
+    font-weight: 700;
+    text-shadow: 0 0 16px rgba(37,223,255,.6);
+  }
 
-    .oe-countdown-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: clamp(10px, 1.5vw, 18px);
-    }
+  .oe-divider {
+    width: 760px;
+    height: 2px;
+    margin: 18px auto 0;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--amber), transparent);
+    box-shadow: 0 0 12px rgba(37,223,255,.5), 0 0 12px rgba(255,179,66,.45);
+  }
 
-    .oe-time-box {
-      min-height: 150px;
-      padding: 18px 10px 14px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(10,36,70,.86), rgba(4,14,30,.95));
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: inset 0 0 24px rgba(37,223,255,.06), 0 14px 26px rgba(0,0,0,.28);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+  .oe-begins-label {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin: 0 auto 16px;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    font-size: 28px;
+    font-weight: 800;
+    text-shadow: 0 0 14px rgba(255,179,66,.62);
+  }
 
-    .oe-time-box:nth-child(1),
-    .oe-time-box:nth-child(2) {
-      box-shadow: inset 0 0 28px rgba(37,223,255,.09), 0 14px 26px rgba(0,0,0,.28);
-    }
+  .oe-countdown-panel {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px;
+    border: 2px solid transparent;
+    border-radius: 28px;
+    background:
+      linear-gradient(var(--panel), var(--panel)) padding-box,
+      linear-gradient(90deg, var(--cyan), var(--amber)) border-box;
+    box-shadow:
+      0 0 30px rgba(37,223,255,.18),
+      0 0 32px rgba(255,179,66,.15),
+      inset 0 0 0 1px rgba(255,255,255,.05);
+  }
 
-    .oe-time-box:nth-child(3),
-    .oe-time-box:nth-child(4) {
-      box-shadow: inset 0 0 28px rgba(255,179,66,.09), 0 14px 26px rgba(0,0,0,.28);
-    }
+  .oe-countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
 
-    .oe-ecg-box {
-      position: relative;
-      overflow: hidden;
-    }
+  .oe-time-box {
+    min-height: 150px;
+    padding: 18px 10px 14px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(10,36,70,.86), rgba(4,14,30,.95));
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: inset 0 0 24px rgba(37,223,255,.06), 0 14px 26px rgba(0,0,0,.28);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .oe-ecg-wrap {
-      height: clamp(24px, 3vw, 34px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 2px 0 -6px;
-      width: 100%;
-    }
+  .oe-time-box:nth-child(1),
+  .oe-time-box:nth-child(2) {
+    box-shadow: inset 0 0 28px rgba(37,223,255,.09), 0 14px 26px rgba(0,0,0,.28);
+  }
 
-    .oe-ecg-svg {
-      width: 100%;
-      max-width: 150px;
-      height: 34px;
-      overflow: visible;
-      filter: drop-shadow(0 0 10px rgba(255,179,66,.8));
-    }
+  .oe-time-box:nth-child(3),
+  .oe-time-box:nth-child(4) {
+    box-shadow: inset 0 0 28px rgba(255,179,66,.09), 0 14px 26px rgba(0,0,0,.28);
+  }
 
-    .oe-ecg-line {
-      fill: none;
-      stroke: var(--amber);
-      stroke-width: 5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 280;
-      stroke-dashoffset: 280;
-      animation: oeEcgPulse 1s linear infinite;
-    }
+  .oe-value,
+  .oe-seconds-value {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 82px;
+    line-height: .95;
+    font-weight: 700;
+    letter-spacing: -.05em;
+    font-variant-numeric: tabular-nums;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .oe-seconds-value {
-      position: relative;
-      z-index: 2;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(48px, 7vw, 88px);
-      line-height: .95;
-      font-weight: 700;
-      letter-spacing: -.05em;
-      color: var(--amber);
-      text-shadow: 0 0 12px rgba(255,179,66,.88), 0 0 34px rgba(255,179,66,.42);
-      font-variant-numeric: tabular-nums;
-      min-height: clamp(46px, 7vw, 84px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transform: translateY(14px);
-      margin-bottom: 10px;
-    }
+  .oe-value {
+    color: var(--cyan);
+    text-shadow: 0 0 12px rgba(37,223,255,.88), 0 0 34px rgba(37,223,255,.42);
+  }
 
-    @keyframes oeEcgPulse {
-      0% { stroke-dashoffset: 280; opacity: .35; }
-      12% { opacity: 1; }
-      60% { stroke-dashoffset: 0; opacity: 1; }
-      100% { stroke-dashoffset: -280; opacity: .35; }
-    }
+  .oe-time-box:nth-child(3) .oe-value,
+  .oe-seconds-value {
+    color: var(--amber);
+    text-shadow: 0 0 12px rgba(255,179,66,.88), 0 0 34px rgba(255,179,66,.42);
+  }
 
-    .oe-value {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(48px, 7vw, 88px);
-      line-height: .95;
-      font-weight: 700;
-      letter-spacing: -.05em;
-      font-variant-numeric: tabular-nums;
-      color: var(--cyan);
-      text-shadow: 0 0 12px rgba(37,223,255,.88), 0 0 34px rgba(37,223,255,.42);
-      min-height: clamp(46px, 7vw, 84px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  .oe-ecg-box {
+    position: relative;
+    overflow: hidden;
+  }
 
-    .oe-time-box:nth-child(3) .oe-value,
-    .oe-time-box:nth-child(4) .oe-value {
-      color: var(--amber);
-      text-shadow: 0 0 12px rgba(255,179,66,.88), 0 0 34px rgba(255,179,66,.42);
-    }
+  .oe-ecg-wrap {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -2px 0 0;
+    width: 100%;
+  }
 
-    .oe-label {
-      display: block;
-      margin-top: 14px;
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: .2em;
-      font-size: clamp(11px, 1.3vw, 15px);
-      font-weight: 700;
-    }
+  .oe-ecg-svg {
+    width: 150px;
+    height: 34px;
+    overflow: visible;
+    filter: drop-shadow(0 0 10px rgba(255,179,66,.8));
+  }
 
-    .oe-date-window {
-      position: relative;
-      z-index: 1;
-      width: fit-content;
-      max-width: 100%;
-      margin: 28px auto 18px;
-      padding: 12px clamp(22px, 5vw, 70px);
-      border: 2px solid transparent;
-      border-radius: 18px;
-      background:
-        linear-gradient(#06162d, #06162d) padding-box,
-        linear-gradient(90deg, var(--cyan), var(--amber)) border-box;
-      font-size: clamp(26px, 5vw, 54px);
-      font-weight: 800;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      box-shadow: 0 0 20px rgba(37,223,255,.18), 0 0 20px rgba(255,179,66,.14);
-      text-align: center;
-    }
+  .oe-ecg-line {
+    fill: none;
+    stroke: var(--amber);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 280;
+    stroke-dashoffset: 280;
+    animation: oeEcgPulse 1s linear infinite;
+  }
 
-    .oe-date-window .start { color: var(--cyan); text-shadow: 0 0 15px rgba(37,223,255,.6); }
-    .oe-date-window .end { color: var(--amber); text-shadow: 0 0 15px rgba(255,179,66,.55); }
-    .oe-date-window .dash { color: var(--white); margin: 0 .25em; }
+  @keyframes oeEcgPulse {
+    0% { stroke-dashoffset: 280; opacity: .35; }
+    12% { opacity: 1; }
+    60% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: -280; opacity: .35; }
+  }
 
-    .oe-copy {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: .16em;
-      font-size: clamp(13px, 1.7vw, 20px);
-      font-weight: 700;
-      margin: 0 auto 28px;
-    }
+  .oe-label {
+    display: block;
+    margin-top: 14px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    font-size: 14px;
+    font-weight: 700;
+  }
 
-    .oe-status {
-      color: var(--amber);
-      text-align: center;
-      margin-top: 12px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: clamp(12px, 1.35vw, 15px);
-      font-weight: 800;
-    }
+  .oe-date-window {
+    position: relative;
+    z-index: 1;
+    width: fit-content;
+    max-width: 100%;
+    margin: 28px auto 18px;
+    padding: 12px 70px;
+    border: 2px solid transparent;
+    border-radius: 18px;
+    background:
+      linear-gradient(#06162d, #06162d) padding-box,
+      linear-gradient(90deg, var(--cyan), var(--amber)) border-box;
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(37,223,255,.18), 0 0 20px rgba(255,179,66,.14);
+    text-align: center;
+  }
 
-    .oe-icons {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 780px;
-      margin: 0 auto;
-      text-align: center;
-    }
+  .oe-date-window .start { color: var(--cyan); text-shadow: 0 0 15px rgba(37,223,255,.6); }
+  .oe-date-window .end { color: var(--amber); text-shadow: 0 0 15px rgba(255,179,66,.55); }
+  .oe-date-window .dash { color: var(--white); margin: 0 .25em; }
 
-    .oe-icon-item {
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: clamp(12px, 1.4vw, 16px);
-      font-weight: 800;
-    }
+  .oe-copy {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 auto 28px;
+  }
 
-    .oe-icon-circle {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 10px;
-      border-radius: 50%;
-      border: 2px solid currentColor;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      line-height: 1;
-      color: var(--cyan);
-      box-shadow: 0 0 18px rgba(37,223,255,.26);
-    }
+  .oe-status {
+    color: var(--amber);
+    text-align: center;
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: 14px;
+    font-weight: 800;
+    min-height: 18px;
+  }
 
-    .oe-icon-item:nth-child(4) .oe-icon-circle {
-      color: var(--amber);
-      box-shadow: 0 0 18px rgba(255,179,66,.25);
-    }
+  .oe-icons {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+  }
 
-    .oe-footer {
-      position: relative;
-      z-index: 1;
-      max-width: 840px;
-      margin: 26px auto 0;
-      padding: 10px 18px;
-      border: 1px solid rgba(255,179,66,.75);
-      border-radius: 999px;
-      text-align: center;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: clamp(11px, 1.2vw, 14px);
-      font-weight: 700;
-    }
+  .oe-icon-item {
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-size: 16px;
+    font-weight: 800;
+  }
 
-    @media (max-width: 850px) {
-      .oe-countdown-grid { grid-template-columns: repeat(2, 1fr); }
-      .oe-time-box { min-height: 132px; }
-      .oe-icons { grid-template-columns: repeat(2, 1fr); }
-      .oe-title { font-size: clamp(38px, 12vw, 76px); }
-    }
+  .oe-icon-circle {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--cyan);
+    box-shadow: 0 0 18px rgba(37,223,255,.26);
+  }
 
-    @media (max-width: 480px) {
-      #oe-digital-countdown-widget { padding: 18px; border-radius: 18px; }
-      .oe-countdown-grid { gap: 10px; }
-      .oe-time-box { padding: 14px 8px; min-height: 110px; }
-      .oe-label { letter-spacing: .12em; }
-      .oe-date-window { letter-spacing: .03em; }
-      .oe-copy { letter-spacing: .08em; }
-    }
-  </style>
+  .oe-icon-item:nth-child(4) .oe-icon-circle {
+    color: var(--amber);
+    box-shadow: 0 0 18px rgba(255,179,66,.25);
+  }
 
-  <div class="oe-header">
-    <h1 class="oe-title"><span class="cyan">OPEN</span> <span class="amber">ENROLLMENT</span></h1>
-    <div class="oe-subtitle">Employee Benefits</div>
-    <div class="oe-divider"></div>
-  </div>
-
-  <div class="oe-begins-label" id="oeBeginsLabel">Enrollment Begins In</div>
-
-  <div class="oe-countdown-panel" role="timer" aria-live="polite">
-    <div class="oe-countdown-grid">
-      <div class="oe-time-box">
-        <div class="oe-value" id="oeDays">00</div>
-        <span class="oe-label">Days</span>
+  .oe-footer {
+    position: relative;
+    z-index: 1;
+    max-width: 840px;
+    margin: 26px auto 0;
+    padding: 10px 18px;
+    border: 1px solid rgba(255,179,66,.75);
+    border-radius: 999px;
+    text-align: center;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: 14px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <div id="oe-scale-shell">
+    <div id="oe-digital-countdown-widget">
+      <div class="oe-header">
+        <h1 class="oe-title"><span class="cyan">OPEN</span> <span class="amber">ENROLLMENT</span></h1>
+        <div class="oe-subtitle">Employee Benefits</div>
+        <div class="oe-divider"></div>
       </div>
-      <div class="oe-time-box">
-        <div class="oe-value" id="oeHours">00</div>
-        <span class="oe-label">Hours</span>
-      </div>
-      <div class="oe-time-box">
-        <div class="oe-value" id="oeMinutes">00</div>
-        <span class="oe-label">Minutes</span>
-      </div>
-      <div class="oe-time-box oe-ecg-box">
-        <div class="oe-seconds-value" id="oeSeconds">00</div>
-        <div class="oe-ecg-wrap" aria-label="Live ECG pulse animation">
-          <svg class="oe-ecg-svg" viewBox="0 0 220 90" role="img" aria-hidden="true">
-            <path class="oe-ecg-line" d="M5 50 H42 L55 50 L66 28 L82 72 L96 50 H120 L132 50 L144 38 L158 58 L170 50 H215" />
-          </svg>
+
+      <div class="oe-begins-label" id="oeBeginsLabel">Enrollment Begins In</div>
+
+      <div class="oe-countdown-panel" role="timer" aria-live="polite">
+        <div class="oe-countdown-grid">
+          <div class="oe-time-box">
+            <div class="oe-value" id="oeDays">00</div>
+            <span class="oe-label">Days</span>
+          </div>
+          <div class="oe-time-box">
+            <div class="oe-value" id="oeHours">00</div>
+            <span class="oe-label">Hours</span>
+          </div>
+          <div class="oe-time-box">
+            <div class="oe-value" id="oeMinutes">00</div>
+            <span class="oe-label">Minutes</span>
+          </div>
+          <div class="oe-time-box oe-ecg-box">
+            <div class="oe-seconds-value" id="oeSeconds">00</div>
+            <div class="oe-ecg-wrap" aria-label="Live ECG pulse animation">
+              <svg class="oe-ecg-svg" viewBox="0 0 220 90" role="img" aria-hidden="true">
+                <path class="oe-ecg-line" d="M5 50 H42 L55 50 L66 28 L82 72 L96 50 H120 L132 50 L144 38 L158 58 L170 50 H215" />
+              </svg>
+            </div>
+            <span class="oe-label">Seconds</span>
+          </div>
         </div>
-        <span class="oe-label">Seconds</span>
+        <div class="oe-status" id="oeStatus">Countdown to enrollment opening</div>
       </div>
+
+      <div class="oe-date-window">
+        <span class="start">June 1</span><span class="dash">–</span><span class="end">June 12</span>
+      </div>
+
+      <p class="oe-copy">Time to review and update your benefits</p>
+
+      <div class="oe-icons">
+        <div class="oe-icon-item"><div class="oe-icon-circle">✚</div>Medical</div>
+        <div class="oe-icon-item"><div class="oe-icon-circle">🦷</div>Dental</div>
+        <div class="oe-icon-item"><div class="oe-icon-circle">◉</div>Vision</div>
+        <div class="oe-icon-item"><div class="oe-icon-circle">♥</div>Life</div>
+      </div>
+
+      <div class="oe-footer">For more Information contact HR@Building-controls.Com</div>
     </div>
-    <div class="oe-status" id="oeStatus">Countdown to enrollment opening</div>
   </div>
 
-  <div class="oe-date-window">
-    <span class="start">June 1</span><span class="dash">–</span><span class="end">June 12</span>
-  </div>
+<script>
+  (function () {
+    var enrollmentStart = new Date('2026-06-01T00:00:00');
+    var enrollmentEnd = new Date('2026-06-12T23:59:59');
 
-  <p class="oe-copy">Time to review and update your benefits</p>
+    var daysEl = document.getElementById('oeDays');
+    var hoursEl = document.getElementById('oeHours');
+    var minutesEl = document.getElementById('oeMinutes');
+    var secondsEl = document.getElementById('oeSeconds');
+    var statusEl = document.getElementById('oeStatus');
+    var labelEl = document.getElementById('oeBeginsLabel');
 
-  <div class="oe-icons">
-    <div class="oe-icon-item"><div class="oe-icon-circle">✚</div>Medical</div>
-    <div class="oe-icon-item"><div class="oe-icon-circle">🦷</div>Dental</div>
-    <div class="oe-icon-item"><div class="oe-icon-circle">◉</div>Vision</div>
-    <div class="oe-icon-item"><div class="oe-icon-circle">♥</div>Life</div>
-  </div>
+    function pad(value) {
+      return String(value).padStart(2, '0');
+    }
 
-  <div class="oe-footer">For more Information contact HR@Building-controls.Com</div>
+    function renderTime(distance) {
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      var minutes = Math.floor((distance / (1000 * 60)) % 60);
+      var seconds = Math.floor((distance / 1000) % 60);
 
-  <script>
-    (function () {
-      // Update the year if needed.
-      // Countdown begins at 12:00 AM local time on June 1, 2026.
-      // Enrollment closes at 11:59:59 PM local time on June 12, 2026.
-      var enrollmentStart = new Date('2026-06-01T00:00:00');
-      var enrollmentEnd = new Date('2026-06-12T23:59:59');
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(minutes);
+      secondsEl.textContent = pad(seconds);
+    }
 
-      var daysEl = document.getElementById('oeDays');
-      var hoursEl = document.getElementById('oeHours');
-      var minutesEl = document.getElementById('oeMinutes');
-      var secondsEl = document.getElementById('oeSeconds');
-      var statusEl = document.getElementById('oeStatus');
-      var labelEl = document.getElementById('oeBeginsLabel');
+    function updateCountdown() {
+      var now = new Date();
 
-      function pad(value) {
-        return String(value).padStart(2, '0');
+      if (now < enrollmentStart) {
+        labelEl.textContent = 'Enrollment Begins In';
+        statusEl.textContent = '';
+        renderTime(enrollmentStart - now);
+        return;
       }
 
-      function renderTime(distance) {
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-        var minutes = Math.floor((distance / (1000 * 60)) % 60);
-        var seconds = Math.floor((distance / 1000) % 60);
-        daysEl.textContent = pad(days);
-        hoursEl.textContent = pad(hours);
-        minutesEl.textContent = pad(minutes);
-        secondsEl.textContent = pad(seconds);
+      if (now >= enrollmentStart && now <= enrollmentEnd) {
+        labelEl.textContent = 'Enrollment Is Now Open';
+        statusEl.textContent = 'Enrollment window is open through June 12';
+        renderTime(enrollmentEnd - now);
+        return;
       }
 
-      function updateCountdown() {
-        var now = new Date();
+      labelEl.textContent = 'Enrollment Window Closed';
+      statusEl.textContent = 'The enrollment period has ended';
+      daysEl.textContent = '00';
+      hoursEl.textContent = '00';
+      minutesEl.textContent = '00';
+      secondsEl.textContent = '00';
+    }
 
-        if (now < enrollmentStart) {
-          labelEl.textContent = 'Enrollment Begins In';
-          statusEl.textContent = '';
-          renderTime(enrollmentStart - now);
-          return;
-        }
+    function scaleWidget() {
+      var shell = document.getElementById('oe-scale-shell');
+      var widget = document.getElementById('oe-digital-countdown-widget');
+      if (!shell || !widget) return;
 
-        if (now >= enrollmentStart && now <= enrollmentEnd) {
-          labelEl.textContent = 'Enrollment Is Now Open';
-          statusEl.textContent = 'Enrollment window is open through June 12';
-          renderTime(enrollmentEnd - now);
-          return;
-        }
+      var designWidth = 1200;
+      var scale = Math.min(window.innerWidth / designWidth, 1);
+      var height = widget.scrollHeight * scale;
 
-        labelEl.textContent = 'Enrollment Window Closed';
-        statusEl.textContent = 'The enrollment period has ended';
-        daysEl.textContent = '00';
-        hoursEl.textContent = '00';
-        minutesEl.textContent = '00';
-        secondsEl.textContent = '00';
-      }
+      shell.style.transform = 'scale(' + scale + ')';
+      shell.style.height = height + 'px';
+      document.body.style.height = height + 'px';
+      document.documentElement.style.height = height + 'px';
+    }
 
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    })();
-  </script>
-</div>
+    updateCountdown();
+    scaleWidget();
+    setInterval(updateCountdown, 1000);
+    window.addEventListener('load', scaleWidget);
+    window.addEventListener('resize', scaleWidget);
+    setTimeout(scaleWidget, 300);
+  })();
+</script>
+</body>
+</html>
