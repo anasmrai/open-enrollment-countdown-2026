@@ -471,7 +471,8 @@
       if (!shell || !widget) return;
 
       var designWidth = 1200;
-      var scale = Math.min(window.innerWidth / designWidth, 1);
+      var scaleMultiplier = 0.75; // 0.75 = 75% size. Change to 0.5 for half size, or 1 for full size.
+      var scale = Math.min(window.innerWidth / designWidth, 1) * scaleMultiplier;
       var height = widget.scrollHeight * scale;
 
       shell.style.transform = 'scale(' + scale + ')';
